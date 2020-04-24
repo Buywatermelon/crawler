@@ -1,0 +1,9 @@
+/.idea
+/.mvn
+/target
+.gitattributes
+*.iml
+HELP.md
+mvnw
+mvnw.cmd
+src/main/java/xyz/ylx/crawler/service/web/
