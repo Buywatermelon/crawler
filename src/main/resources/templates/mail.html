@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>爬虫错误通知</title>
+</head>
+    <body>
+        <!--/*@thymesVar id="crawlerJob" type="java.lang.String"*/-->
+        <h3 th:text="'您的' + ${crawlerJob} + '爬虫任务出错了，请您尽快排查程序错误！' "></h3>
+    </body>
+</html>

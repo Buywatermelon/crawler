@@ -2,8 +2,10 @@ package xyz.ylx.crawler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.ObjectUtils;
 import xyz.ylx.crawler.constant.ApiUri;
 import xyz.ylx.crawler.pojo.bean.News;
@@ -22,9 +24,15 @@ import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @SpringBootTest
 class CrawlerApplicationTests {
 
@@ -34,6 +42,7 @@ class CrawlerApplicationTests {
     @Resource
     private RumorService rumorService;
 
+    @SneakyThrows
     @Test
     void testRumor() {
         rumorService.rumor();
@@ -86,6 +95,12 @@ class CrawlerApplicationTests {
 
     @SneakyThrows
     @Test
+    void testRecommend() {
+        recommendService.recommend();
+    }
+
+    @SneakyThrows
+    @Test
     void testRecommendApi() {
         HttpResponse<String> response = HttpClient.newHttpClient()
                 .send(
@@ -118,5 +133,4 @@ class CrawlerApplicationTests {
 
         recommendService.saveBatch(recommendList);
     }
-
 }

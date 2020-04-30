@@ -16,4 +16,7 @@ public class ApiUri {
 
     // 防护知识API
     public static final String RECOMMEND = "/2020/0130/542/3393874921746319236-115.json";
+
+    // 疫情百科API
+    private static final String Wiki = "";
 }

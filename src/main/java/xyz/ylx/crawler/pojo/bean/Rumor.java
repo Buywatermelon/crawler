@@ -25,9 +25,9 @@ public class Rumor {
     @TableField("`explain`")
     private String explain;
 
-    private String imgsrc;
+    private String imgSrc;
 
-    private String markstyle;
+    private String markStyle;
 
     @TableField("`desc`")
     private String desc;

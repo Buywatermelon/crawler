@@ -2,7 +2,6 @@ package xyz.ylx.crawler.service.crawler.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import xyz.ylx.crawler.constant.ApiUri;
@@ -10,6 +9,7 @@ import xyz.ylx.crawler.mapper.NewsMapper;
 import xyz.ylx.crawler.pojo.bean.News;
 import xyz.ylx.crawler.pojo.format.NewsFormat;
 import xyz.ylx.crawler.service.crawler.NewsService;
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -28,9 +28,8 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
         this.objectMapper = objectMapper;
     }
 
-    @SneakyThrows
     @Override
-    public void news() {
+    public void news() throws IOException, InterruptedException {
         HttpResponse<String> response = HttpClient.newHttpClient()
                 .send(
                         HttpRequest
@@ -57,6 +56,10 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
                 .takeWhile(n -> ObjectUtils.isEmpty(this.getById(n.getId())) )
                 .collect(toList());
 
-        this.saveBatch(newsList);
+        try {
+            this.saveBatch(newsList);
+        } catch(RuntimeException e) {
+            throw new RuntimeException();
+        }
     }
 }

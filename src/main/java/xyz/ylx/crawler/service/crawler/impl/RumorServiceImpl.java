@@ -2,17 +2,19 @@ package xyz.ylx.crawler.service.crawler.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import xyz.ylx.crawler.mapper.RumorMapper;
 import xyz.ylx.crawler.pojo.bean.Rumor;
 import xyz.ylx.crawler.pojo.format.RumorFormat;
 import xyz.ylx.crawler.constant.ApiUri;
 import xyz.ylx.crawler.service.crawler.RumorService;
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -25,38 +27,37 @@ public class RumorServiceImpl extends ServiceImpl<RumorMapper, Rumor> implements
     }
 
     @Override
-    public void rumor() {
-        HttpClient.newHttpClient()
-                .sendAsync(
-                        rumorRequest(),
-                        HttpResponse.BodyHandlers.ofString())
-                .thenApply(response ->
-                        jsonToPojo(response.body(), RumorFormat.class).getContent()
-                                .stream()
-                                .map(rumorItem ->
-                                        Rumor.builder()
-                                                .id(rumorItem.getId())
-                                                .date(rumorItem.getDate())
-                                                .title(rumorItem.getTitle())
-                                                .explain(rumorItem.getExplain())
-                                                .imgsrc(rumorItem.getCover())
-                                                .markstyle(rumorItem.getMarkstyle())
-                                                .desc(rumorItem.getJsonMemberAbstract())
-                                                .author(rumorItem.getAuthor())
-                                                .build()
-                                ).collect(toList()))
-                .thenAccept(this::saveOrUpdateBatch);
-    }
+    public void rumor() throws IOException, InterruptedException {
+        HttpResponse<String> response = HttpClient.newHttpClient()
+                .send(
+                        HttpRequest
+                                .newBuilder()
+                                .uri(URI.create(ApiUri.TX_HOST + ApiUri.RUMOR + "?page=0"))
+                                .build(),
+                        HttpResponse.BodyHandlers.ofString());
 
-    private HttpRequest rumorRequest() {
-        return HttpRequest
-                .newBuilder()
-                .uri(URI.create(ApiUri.TX_HOST + ApiUri.RUMOR + "?page=0"))
-                .build();
-    }
+        RumorFormat rumorFormat = objectMapper.readValue(response.body(), RumorFormat.class);
 
-    @SneakyThrows
-    private <T> T jsonToPojo(String json, Class<T> clazz) {
-        return objectMapper.readValue(json, clazz);
+        List<Rumor> rumorList = rumorFormat.getContent()
+                .stream()
+                .map(rumorItem ->
+                        Rumor.builder()
+                                .id(rumorItem.getId())
+                                .date(rumorItem.getDate())
+                                .title(rumorItem.getTitle())
+                                .explain(rumorItem.getExplain())
+                                .imgSrc(rumorItem.getCover())
+                                .markStyle(rumorItem.getMarkstyle())
+                                .desc(rumorItem.getJsonMemberAbstract())
+                                .author(rumorItem.getAuthor())
+                                .build())
+                .takeWhile(r -> ObjectUtils.isEmpty(this.getById(r.getId())) )
+                .collect(toList());
+
+        try {
+            this.saveBatch(rumorList);
+        } catch(RuntimeException e) {
+            throw new RuntimeException();
+        }
     }
 }
