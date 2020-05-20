@@ -1,4 +1,4 @@
-package xyz.ylx.crawler.pojo.bean;
+package xyz.ylx.crawler.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;

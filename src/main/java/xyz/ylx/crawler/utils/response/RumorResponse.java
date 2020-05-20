@@ -1,9 +1,9 @@
-package xyz.ylx.crawler.utils;
+package xyz.ylx.crawler.utils.response;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import xyz.ylx.crawler.pojo.bean.Rumor;
+import xyz.ylx.crawler.pojo.entity.Rumor;
 import java.util.List;
 
 @Data

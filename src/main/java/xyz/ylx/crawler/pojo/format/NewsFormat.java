@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import xyz.ylx.crawler.pojo.entity.News;
+import xyz.ylx.crawler.pojo.format.item.NewItem;
 
 @Data
 @Builder
@@ -15,7 +17,7 @@ public class NewsFormat {
 	private String code;
 
 	@JsonProperty("data")
-	private List<NewItem> data;
+		private List<News> data;
 
 	@JsonProperty("success")
 	private boolean success;

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import xyz.ylx.crawler.pojo.format.item.RecommendItem;
 
 @Data
 @Builder

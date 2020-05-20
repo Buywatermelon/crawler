@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.ylx.crawler.mapper.CountryMapper">
+    <resultMap id="countryMap" type="xyz.ylx.crawler.pojo.entity.Country">
+        <id property="provinceName" column="province_name" />
+        <result property="createTime" column="create_time" />
+        <result property="modifyTime" column="modify_time" />
+        <result property="tags" column="tags" />
+        <result property="countryType" column="country_type" />
+        <result property="continents" column="continents" />
+        <result property="provinceId" column="province_id" />
+        <result property="provinceName" column="province_name" />
+        <result property="provinceShortName" column="province_short_name" />
+        <result property="currentConfirmedCount" column="current_confirmed_count" />
+        <result property="confirmedCount" column="confirmed_count" />
+        <result property="confirmedCountRank" column="confirmed_count_rank" />
+        <result property="suspectedCount" column="suspected_count" />
+        <result property="curedCount" column="cured_count" />
+        <result property="deadCount" column="dead_count" />
+        <result property="deadCountRank" column="dead_count_rank" />
+        <result property="deadRate" column="dead_rate" />
+        <result property="deadRateRank" column="dead_rate_rank" />
+        <result property="comment" column="comment" />
+        <result property="sort" column="sort" />
+        <result property="operator" column="operator" />
+        <result property="countryShortCode" column="country_short_code" />
+        <result property="countryFullName" column="country_full_ame" />
+        <result property="statisticsData" column="statistics_data" />
+        <result property="showRank" column="show_rank" />
+        <association property="incrVo" javaType="xyz.ylx.crawler.pojo.format.item.IncrVo">
+            <result property="currentConfirmedIncr" column="current_confirmed_incr" />
+            <result property="confirmedIncr" column="confirmed_incr" />
+            <result property="curedIncr" column="cured_incr" />
+            <result property="deadIncr" column="dead_incr" />
+        </association>
+    </resultMap>
+
+    <select id="getCountry" resultMap="countryMap">
+        SELECT
+               *
+        FROM
+             country
+    </select>
+
+    <insert id="insertForeachCountry">
+        INSERT INTO
+            country (create_time, modify_time, tags, country_type, continents, province_id, province_name,
+                     province_short_name, city_name, current_confirmed_count, confirmed_count,
+                     confirmed_count_rank, suspected_count, cured_count, dead_count, dead_count_rank,
+                     dead_rate, dead_rate_rank, comment, sort, operator, location_id, country_short_code,
+                     country_full_name, statistics_data, current_confirmed_incr, confirmed_incr, cured_incr,
+                     dead_incr, show_rank)
+        VALUES
+            <foreach item="item" collection="list" separator=",">
+                (
+                #{item.createTime},
+                #{item.modifyTime},
+                #{item.tags},
+                #{item.countryType},
+                #{item.continents},
+                #{item.provinceId},
+                #{item.provinceName},
+                #{item.provinceShortName},
+                #{item.cityName},
+                #{item.currentConfirmedCount},
+                #{item.confirmedCount},
+                #{item.confirmedCountRank},
+                #{item.suspectedCount},
+                #{item.curedCount},
+                #{item.deadCount},
+                #{item.deadCountRank},
+                #{item.deadRate},
+                #{item.deadRateRank},
+                #{item.comment},
+                #{item.sort},
+                #{item.operator},
+                #{item.locationId},
+                #{item.countryShortCode},
+                #{item.countryFullName},
+                #{item.statisticsData},
+                #{item.incrVo.currentConfirmedIncr},
+                #{item.incrVo.confirmedIncr},
+                #{item.incrVo.curedIncr},
+                #{item.incrVo.deadIncr},
+                #{item.showRank}
+                )
+            </foreach>
+    </insert>
+
+</mapper>

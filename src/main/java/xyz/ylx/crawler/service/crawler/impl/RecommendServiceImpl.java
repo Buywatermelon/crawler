@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.ylx.crawler.constant.ApiUri;
 import xyz.ylx.crawler.mapper.RecommendMapper;
-import xyz.ylx.crawler.pojo.bean.Recommend;
+import xyz.ylx.crawler.pojo.entity.Recommend;
 import xyz.ylx.crawler.pojo.format.RecommendFormat;
 import xyz.ylx.crawler.service.crawler.RecommendService;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@Transactional
 public class RecommendServiceImpl extends ServiceImpl<RecommendMapper, Recommend> implements RecommendService {
 
     private final ObjectMapper objectMapper;

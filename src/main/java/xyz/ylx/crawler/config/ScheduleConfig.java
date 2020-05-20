@@ -8,6 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 @Slf4j
@@ -17,12 +19,9 @@ public class ScheduleConfig implements SchedulingConfigurer {
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.setTaskScheduler(taskScheduler());
-    }
-
-    @Bean
-    public TaskScheduler taskScheduler() {
         log.info("初始化定时任务线程池");
-        return new ConcurrentTaskScheduler(new ScheduledThreadPoolExecutor(10));
+        taskRegistrar.setTaskScheduler(
+                new ConcurrentTaskScheduler(new ScheduledThreadPoolExecutor(10))
+        );
     }
 }

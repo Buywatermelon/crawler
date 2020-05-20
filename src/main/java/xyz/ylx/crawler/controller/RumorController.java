@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.ylx.crawler.pojo.bean.Rumor;
+import xyz.ylx.crawler.pojo.entity.Rumor;
 import xyz.ylx.crawler.service.crawler.RumorService;
-import xyz.ylx.crawler.utils.RumorResponse;
+import xyz.ylx.crawler.utils.response.RumorResponse;
 import java.util.Optional;
 
 @RestController
@@ -23,7 +23,7 @@ public class RumorController {
     public RumorResponse getRumor(
             @RequestParam(required = false) String world,
             @RequestParam(defaultValue = "10") int num,
-            @RequestParam(defaultValue = "1") int page) {
+            @RequestParam(defaultValue = "0") int page) {
 
         LambdaQueryWrapper<Rumor> rumorWrapper = new LambdaQueryWrapper<>();
         Page<Rumor> rumorPage = new Page<>(page, num);

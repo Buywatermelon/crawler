@@ -17,7 +17,7 @@ import java.io.File;
 @Service
 public class MailServiceImpl implements MailService {
 
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
     @Value("${spring.mail.username}")
     private String from;

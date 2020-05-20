@@ -1,7 +1,7 @@
 package xyz.ylx.crawler.service.crawler;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import xyz.ylx.crawler.pojo.bean.Recommend;
+import xyz.ylx.crawler.pojo.entity.Recommend;
 
 import java.io.IOException;
 

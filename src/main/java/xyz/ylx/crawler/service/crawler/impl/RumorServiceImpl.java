@@ -3,9 +3,10 @@ package xyz.ylx.crawler.service.crawler.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import xyz.ylx.crawler.mapper.RumorMapper;
-import xyz.ylx.crawler.pojo.bean.Rumor;
+import xyz.ylx.crawler.pojo.entity.Rumor;
 import xyz.ylx.crawler.pojo.format.RumorFormat;
 import xyz.ylx.crawler.constant.ApiUri;
 import xyz.ylx.crawler.service.crawler.RumorService;
@@ -18,6 +19,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@Transactional
 public class RumorServiceImpl extends ServiceImpl<RumorMapper, Rumor> implements RumorService {
 
     private final ObjectMapper objectMapper;
@@ -27,7 +29,7 @@ public class RumorServiceImpl extends ServiceImpl<RumorMapper, Rumor> implements
     }
 
     @Override
-    public void rumor() throws IOException, InterruptedException {
+    public void crawlerRumor() throws IOException, InterruptedException {
         HttpResponse<String> response = HttpClient.newHttpClient()
                 .send(
                         HttpRequest

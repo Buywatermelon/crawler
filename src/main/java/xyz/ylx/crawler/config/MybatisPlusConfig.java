@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
 @Configuration
-@MapperScan("xyz.ylx.crawler.mapper")
+@MapperScan(basePackages = "xyz.ylx.crawler.mapper")
 public class MybatisPlusConfig {
 
     @Bean

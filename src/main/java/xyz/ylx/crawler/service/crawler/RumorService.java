@@ -1,11 +1,11 @@
 package xyz.ylx.crawler.service.crawler;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import xyz.ylx.crawler.pojo.bean.Rumor;
+import xyz.ylx.crawler.pojo.entity.Rumor;
 
 import java.io.IOException;
 
 public interface RumorService extends IService<Rumor> {
 
-    void rumor() throws IOException, InterruptedException;
+    void crawlerRumor() throws IOException, InterruptedException;
 }

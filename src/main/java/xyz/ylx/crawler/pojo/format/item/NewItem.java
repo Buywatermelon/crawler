@@ -1,4 +1,4 @@
-package xyz.ylx.crawler.pojo.format;
+package xyz.ylx.crawler.pojo.format.item;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
