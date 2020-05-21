@@ -1,6 +1,5 @@
 package xyz.ylx.crawler.pojo.format.item;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +10,6 @@ import lombok.experimental.Accessors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
-@TableName(autoResultMap = true)
 public class IncrVo{
     /**
      * 相比昨天现存确诊人数

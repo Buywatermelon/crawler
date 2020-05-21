@@ -4,11 +4,13 @@ server:
 spring:
   application:
     name: crawler
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/crawler?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://139.9.42.122:3306/crawler?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true
   mail:
     host: smtp.qq.com
     username: 1505127742@qq.com

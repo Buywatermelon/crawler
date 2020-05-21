@@ -9,9 +9,9 @@ import xyz.ylx.crawler.config.HttpConfig;
 import xyz.ylx.crawler.mapper.CountryMapper;
 import xyz.ylx.crawler.pojo.entity.Country;
 import xyz.ylx.crawler.service.crawler.CountryService;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import static java.util.stream.Collectors.toList;
 
 
 @Slf4j
@@ -26,10 +26,10 @@ public class CountryServiceImpl extends ServiceImpl<CountryMapper, Country> impl
     }
 
     @Override
-    public void crawlerCountry() throws IOException {
+    public void crawlerCountry() {
         String reg = "window.getListByCountryTypeService2true = (.*?)\\}(?=catch)";
 
-        List<Country> countryList = HttpConfig.parseDxyHtmlToList(reg);
+        List<Country> countryList = HttpConfig.parseDxyHtmlToCountryList(reg);
 
         LambdaQueryWrapper<Country> countryQuery = new LambdaQueryWrapper<>();
 
@@ -37,7 +37,11 @@ public class CountryServiceImpl extends ServiceImpl<CountryMapper, Country> impl
                 this.getOne(countryQuery.eq(Country::getProvinceName, "美国").orderByDesc(Country::getModifyTime))
         )
                 .ifPresentOrElse(country -> {
-                    if (countryList.get(0).getModifyTime().equals(country.getModifyTime()))
+                            Country American = countryList.stream()
+                                    .filter(c -> c.getProvinceName().equals("美国"))
+                                    .collect(toList())
+                                    .get(0);
+                            if (American.getModifyTime().equals(country.getModifyTime()))
                         log.info("该时段国家疫情数据已存在");
                     else
                         countryMapper.insertForeachCountry(countryList);

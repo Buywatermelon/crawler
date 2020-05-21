@@ -10,7 +10,7 @@ public enum Continent {
     大洋洲("Oceania"),
     南极洲("Antarctica");
 
-    private String continentName;
+    private final String continentName;
 
     Continent(String continentName) {
         this.continentName = continentName;

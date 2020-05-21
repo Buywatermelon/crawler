@@ -3,12 +3,15 @@ package xyz.ylx.crawler.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import xyz.ylx.crawler.constant.ApiUri;
+import xyz.ylx.crawler.pojo.entity.Country;
+import xyz.ylx.crawler.pojo.entity.Recommend;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -102,23 +105,28 @@ public class HttpConfig {
         return response.body();
     }
 
-    /**
-     * 通用解析，通过正则解析从丁香园疫情页面中获取所需Json，将Json解析为List<T></>
-     * @param reg 正则语句
-     * @param <T> List泛型
-     * @return List<T></>
-     * @throws JsonProcessingException json解析异常
-     */
-    public static <T> List<T> parseDxyHtmlToList(String reg) throws JsonProcessingException {
+    @SneakyThrows
+    public static List<Country> parseDxyHtmlToCountryList(String reg) {
         Matcher matcher = Pattern.compile(reg).matcher(HTTP_PARSE_INSTANCE.dxyHtml);
-        List<T> list = null;
         if (matcher.find()) {
-            list = HTTP_PARSE_INSTANCE.objectMapper.readValue(
+            return HTTP_PARSE_INSTANCE.objectMapper.readValue(
                     matcher.group(1),
-                    new TypeReference<>(){}
+                    new TypeReference<List<Country>>() {}
             );
         }
-        return list;
+        return null;
+    }
+
+    @SneakyThrows
+    public static List<Recommend> parseDxyHtmlToRecommendList(String reg) {
+        Matcher matcher = Pattern.compile(reg).matcher(HTTP_PARSE_INSTANCE.dxyHtml);
+        if (matcher.find()) {
+            return HTTP_PARSE_INSTANCE.objectMapper.readValue(
+                    matcher.group(1),
+                    new TypeReference<List<Recommend>>() {}
+            );
+        }
+        return null;
     }
 
     /**

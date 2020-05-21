@@ -7,7 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import xyz.ylx.crawler.config.HttpConfig;
 import xyz.ylx.crawler.pojo.entity.Country;
 import xyz.ylx.crawler.pojo.entity.Overall;
+import xyz.ylx.crawler.pojo.entity.Recommend;
+import xyz.ylx.crawler.pojo.format.RecommendFormat;
 import xyz.ylx.crawler.pojo.format.WikiFormat;
+import xyz.ylx.crawler.pojo.format.item.RecommendItem;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -51,7 +54,7 @@ public class BeanTest {
 
     @Test
     void parseDxyHtmlTestToCountry() throws JsonProcessingException {
-        List<Country> countryList = HttpConfig.parseDxyHtmlToList("window.getListByCountryTypeService2true = (.*?)\\}(?=catch)");
+        List<Country> countryList = HttpConfig.parseDxyHtmlToCountryList("window.getListByCountryTypeService2true = (.*?)\\}(?=catch)");
         System.out.println(countryList);
     }
 
@@ -65,5 +68,11 @@ public class BeanTest {
     void parseDxtHtmlToWiki() throws JsonProcessingException {
         WikiFormat wikiFormat = HttpConfig.parseDxyHtmlToObject("window.getWikiList = (.*?)\\}(?=catch)", WikiFormat.class);
         System.out.println(wikiFormat.getResult());
+    }
+
+    @Test
+    void parseDxyHtmlToRecommend() throws JsonProcessingException {
+        List<Recommend> recommendFormat = HttpConfig.parseDxyHtmlToRecommendList("window.getIndexRecommendListundefined = (.*?)\\}(?=catch)");
+        System.out.println(recommendFormat);
     }
 }

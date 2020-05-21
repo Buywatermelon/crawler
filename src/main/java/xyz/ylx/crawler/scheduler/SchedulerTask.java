@@ -91,8 +91,7 @@ public class SchedulerTask {
     public void scheduledCountry() {
         log.info("国家疫情信息爬虫开始运行");
         try {
-            countryService.crawlerCountry();
-        } catch (Exception e) {
+            countryService.crawlerCountry(); } catch (Exception e) {
             log.error(e.getMessage());
             mailService.sendHtmlMail(Mail.MAIL_TO_0, Mail.MAIL_SUBJECT, getContent("国家疫情信息"));
         }
